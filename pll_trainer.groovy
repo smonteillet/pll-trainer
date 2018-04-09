@@ -1,5 +1,7 @@
+import groovy.transform.Field
+
 // The following map is representing plls with list of moves for solving the specific PLL.
-def plls = [
+@Field def plls = [
     Aa : ["R' F R' B2 R F' R' B2 R2", "R' U2 R2 U' L' U R' U' L U R' U2 R", "R U' L' U' L2 U' R2 U L2 U' R2 U2 L U R'"],
     Ab : ["R B' R F2 R' B R F2 R2"],
     E  : ["R' U L' D2 L U' R L' U R' D2 R U' L", "R' D' R U' R' D R U R' D' R U2 R' D R U' R' D' R U R' D R"],
@@ -23,22 +25,44 @@ def plls = [
     Z  : ["R' U' R2 U R U R' U' R U R U' R U' R'", "U R' U' R U' R U R U' R' U R U R2 U' R' U", "R U R' U R' U' R' U R U' R' U' R2 U R"]
 ]
 
+verifyUserInput(args);
+def pllsFromUser = args.size() == 1 ? args[0].split(",") : [];
+
+while (true) {
+    def pll = chooseRandomPll(pllsFromUser);
+    String pllSolveAlgorithm = getRandomElementInList(plls[pll]);
+    def scramble = generateScramble(pllSolveAlgorithm);
+    println "\nNext PLL scramble: ";
+    println scramble
+    println  'Press enter to reveal PLL ';
+    System.in.newReader().readLine();
+    println "The PLL was : $pll";
+}
+
 def getRandomElementInList(def list) {
     int index = Math.abs(new Random().nextInt() % list.size());
-    return list.get(index);
+    return list[index];
 }
 
 int getRandomNumber(int upperRange) {
     return Math.abs(new Random().nextInt() % upperRange);
 }
 
-while (true) {
-    // Chose which PLL
-    int chosenPllIndex = getRandomNumber(plls.size());
-    def chosenPLL = (plls.keySet() as String[])[chosenPllIndex];
-    // Chose which solve of the chosen PLL
-    String pllSolveAlgorithm = getRandomElementInList(plls[chosenPLL]);
-    // Generate Scramble from pll solve algo
+def chooseRandomPll(def pllsFromUser) {
+    def chosenPLL = "";
+    if (pllsFromUser.size() == 0) {
+        // Chose which PLL from all PLLs
+        int chosenPllIndex = getRandomNumber(plls.size());
+        chosenPLL = (plls.keySet() as String[])[chosenPllIndex];
+    }
+    else {
+        chosenPLL = getRandomElementInList(pllsFromUser);
+    }
+    return chosenPLL;
+}
+
+def generateScramble(String pllSolveAlgorithm) {
+     // Generate Scramble from pll solve algo
     String scramble = "";
     pllSolveAlgorithm.split(" ").reverse().each{ move ->
         if (move.contains("2")) {
@@ -51,12 +75,21 @@ while (true) {
             scramble = scramble + move + "' ";
         }
     }
+    return scramble + getRandomElementInList(["U", "U'", "U2", ""]);
+}
 
-    scramble += getRandomElementInList(["U", "U'", "U2", ""])
-
-    println "\nNext PLL scramble: ";
-    println scramble
-    println  'Press enter to reveal PLL ';
-    System.in.newReader().readLine();
-    println "The PLL was : $chosenPLL";
+def verifyUserInput(def args) {
+    if (args.size() >= 2) {
+        println "The must be 0 or 1 argument for this script. If you want to specify your pll, it must follow this format: Aa,Ab,Y";
+        System.exit(0);
+    }
+    if(args.size() == 1) {
+        args[0].split(",").each { pll ->
+            def solves = plls[pll];
+            if (solves == null || solves.size() == 0) {
+                println "PLL $pll is not handle by this script";
+                System.exit(0);
+            }
+        }
+    }
 }
