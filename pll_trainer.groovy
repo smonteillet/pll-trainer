@@ -50,6 +50,7 @@ while (true) {
 
     println "\nNext PLL scramble: ";
     println scramble
-    System.console().readLine 'Press enter to reveal PLL ';
+    println  'Press enter to reveal PLL ';
+    System.in.newReader().readLine();
     println "The PLL was : $chosenPLL";
 }
