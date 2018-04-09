@@ -23,6 +23,11 @@ def plls = [
     Z  : ["R' U' R2 U R U R' U' R U R U' R U' R'", "U R' U' R U' R U R U' R' U R U R2 U' R' U", "R U R' U R' U' R' U R U' R' U' R2 U R"]
 ]
 
+def getRandomElementInList(def list) {
+    int index = Math.abs(new Random().nextInt() % list.size());
+    return list.get(index);
+}
+
 int getRandomNumber(int upperRange) {
     return Math.abs(new Random().nextInt() % upperRange);
 }
@@ -32,8 +37,7 @@ while (true) {
     int chosenPllIndex = getRandomNumber(plls.size());
     def chosenPLL = (plls.keySet() as String[])[chosenPllIndex];
     // Chose which solve of the chosen PLL
-    int chosenPllSolveIndex =  getRandomNumber(plls[chosenPLL].size());
-    String pllSolveAlgorithm = plls[chosenPLL].get(chosenPllSolveIndex);
+    String pllSolveAlgorithm = getRandomElementInList(plls[chosenPLL]);
     // Generate Scramble from pll solve algo
     String scramble = "";
     pllSolveAlgorithm.split(" ").reverse().each{ move ->
@@ -47,6 +51,8 @@ while (true) {
             scramble = scramble + move + "' ";
         }
     }
+
+    scramble += getRandomElementInList(["U", "U'", "U2", ""])
 
     println "\nNext PLL scramble: ";
     println scramble
