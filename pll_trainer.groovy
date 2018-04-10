@@ -34,9 +34,16 @@ while (true) {
     def scramble = generateScramble(pllSolveAlgorithm);
     println "\nNext PLL scramble: ";
     println scramble
-    println  'Press enter to reveal PLL ';
+    println 'Press [ENTER] to Start timer!';
     System.in.newReader().readLine();
+    long start = System.currentTimeMillis();
+    println 'Press [ENTER] to Stop timer!';
+    System.in.newReader().readLine();
+    long stop = System.currentTimeMillis();
+    float time = ((stop - start) / 1000 );
+    println "$time sec";
     println "The PLL was : $pll";
+    println "-------------------------------------------------"
 }
 
 def getRandomElementInList(def list) {
