@@ -34,21 +34,33 @@ while (true) {
     def scramble = generateScramble(pllSolveAlgorithm);
     println "\nNext PLL scramble: ";
     println scramble
-    println 'Press [ENTER] to Start timer!';
+    println 'Press [ENTER] to START timer!';
     System.in.newReader().readLine();
     long start = System.currentTimeMillis();
-    println 'Press [ENTER] to Stop timer!';
+    eraseLines(2);
+    println 'Press [ENTER] to STOP timer!\n';
+    printTimer(start); // Need to refresh while no "ENTER"
     System.in.newReader().readLine();
-    long stop = System.currentTimeMillis();
-    float time = ((stop - start) / 1000 );
-    println "$time sec";
-    println "The PLL was : $pll";
+    printTimer(start);
+    println "\nThe PLL was : $pll";
     println "-------------------------------------------------"
 }
 
 def getRandomElementInList(def list) {
     int index = Math.abs(new Random().nextInt() % list.size());
     return list[index];
+}
+
+def printTimer(long startTime) {
+    eraseLines(1);
+    long now = System.currentTimeMillis();
+    double time = ((now - startTime) / 1000d);
+    print "$time sec";
+}
+
+def eraseLines(int numberOfLine) {
+    print(String.format("\033[%dA",numberOfLine)); // Move up
+    print("\033[2K"); // Erase line content
 }
 
 int getRandomNumber(int upperRange) {
