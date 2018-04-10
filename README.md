@@ -9,10 +9,7 @@ This Groovy script will help you to train how to solve PLLs. It will allows you 
 
     Next PLL scramble:
     F R' F' R U R U' R' F R U' R' U R U R' F' U2
-    Press [ENTER] to Start timer!
-
-    Press [ENTER] to Stop timer!
-
+    Press [ENTER] to STOP timer!
     0.703 sec
     The PLL was : T
     -------------------------------------------------
@@ -27,10 +24,7 @@ If you want to specify a defined set of PLLs, you can add the following argument
 
     Next PLL scramble:
     R' U2 R U' F R U R' U' R' F' U' R U R U' R'
-    Press [ENTER] to Start timer!
-
-    Press [ENTER] to Stop timer!
-
+    Press [ENTER] to STOP timer!
     0.5 sec
     The PLL was : Ga
     -------------------------------------------------
