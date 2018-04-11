@@ -1,4 +1,5 @@
-import groovy.transform.Field
+import groovy.transform.Field;
+import java.text.DecimalFormat;
 
 // The following map is representing plls with list of moves for solving the specific PLL.
 @Field def plls = [
@@ -14,7 +15,7 @@ import groovy.transform.Field
     Ja : ["R' U L' U2 R U' R' U2 R L U'", "B' U F' U2 B U' B' U2 F B U'", "B2 R' U' R B2 L' D L' D' L2", "L' U' L F L' U' L U L F' L2 U L U"],
     Jb : ["R U R' F' R U R' U' R' F R2 U' R' U'", "B U' F U2 B' U B U2 F' B' U", "R U' L U2 R' U L' U' R U' L U2 R' U L'"],
     Na : ["L U' R U2 L' U R' L U' R U2 L' U R' U'", "L U' L' U L F U F' L' U' L F' L F L' U L'", "R' U R2 B2 U R' B2' R U' B2 R2' U' R U'"],
-    Nb : ["R' U L' U2 R U' L R' U L' U2 R U' L U", "R' U R U' R' F' U' F R U R' F R' F' R U' R", "	F L' U' L U L F' L2 F' U L U L' U' F L"],
+    Nb : ["R' U L' U2 R U' L R' U L' U2 R U' L U", "R' U R U' R' F' U' F R U R' F R' F' R U' R", "  F L' U' L U L F' L2 F' U L U L' U' F L"],
     Rb : ["R' U2 R U2' R' F R U R' U' R' F' R2 U'", "B2 L2 U' B' U' B U B U L2 B U' B U", "R' U2 R U R B R' U2 R' U2 R B' R' U R U'"],
     Ra : ["R U' R' U' R U R D R' U' R D' R' U2 R' U'", "R U2 R' U2 R B' R' U' R U R B R2 U", "F2 L2 U F U F' U' F' U' L2 F' U F' U'"],
     T  : ["F R U' R' U' R U R' F' R U R' U' R' F R F'", "R2 U R2 U' R2' U' D R2 U' R2' U R2 D'", "R2 U' R2 D B2 L2 U L2 D' B2 U"],
@@ -28,15 +29,29 @@ import groovy.transform.Field
 verifyUserInput(args);
 def pllsFromUser = args.size() == 1 ? args[0].split(",") : [];
 
+DecimalFormat df = new DecimalFormat("0.000");
+
 while (true) {
     def pll = chooseRandomPll(pllsFromUser);
     String pllSolveAlgorithm = getRandomElementInList(plls[pll]);
     def scramble = generateScramble(pllSolveAlgorithm);
     println "\nNext PLL scramble: ";
     println scramble
-    println  'Press enter to reveal PLL ';
+    println 'Use [ENTER] to START / STOP timer!';
     System.in.newReader().readLine();
-    println "The PLL was : $pll";
+    long start = System.currentTimeMillis();
+    def t = Thread.start {
+        while (true) {
+            long now = System.currentTimeMillis();
+            String timeFormated = df.format(((now - start) / 1000d));
+            print "\r $timeFormated s"
+            Thread.sleep(5);
+        }
+    }
+    System.in.newReader().readLine();
+    t.stop(); 
+    println "\nThe PLL was : $pll";
+    println "-------------------------------------------------"
 }
 
 def getRandomElementInList(def list) {
