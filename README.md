@@ -18,17 +18,22 @@ This Groovy script will help you to train how to solve PLLs. It will allows you 
     R' D' R U' R' D R U R' D' R U2 R' D R U' R' D' R U R' D R U2
     Press [ENTER] to Start timer!
 
-If you want to specify a defined set of PLLs, you can add the following argument:
+If you want to train only with a specific set of PLLs, you can add the following argument:
 
-    $ groovy pll_trainer.groovy Ga,Gb,Gc,Gd
+    $ groovy pll_trainer.groovy -i Ga,Gb,Gc,Gd
 
     Next PLL scramble:
     R' U2 R U' F R U R' U' R' F' U' R U R U' R'
     Press [ENTER] to STOP timer!
     0.5 sec
     The PLL was : Ga
-    -------------------------------------------------
+
+If you want to remove a specific set of PLLs, you can add the following argument:
+
+    $ groovy pll_trainer.groovy -e Na,Nb
 
     Next PLL scramble:
-    U' R2 U' R U' R U R' U R2 D' U R U' R' D U2
-    Press [ENTER] to Start timer!
+    R' U2 R U' F R U R' U' R' F' U' R U R U' R'
+    Press [ENTER] to STOP timer!
+    0.5 sec
+    The PLL was : Ga

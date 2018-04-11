@@ -2,7 +2,7 @@ import groovy.transform.Field;
 import java.text.DecimalFormat;
 
 // The following map is representing plls with list of moves for solving the specific PLL.
-@Field def plls = [
+@Field def pllsAlgs = [
     Aa : ["R' F R' B2 R F' R' B2 R2", "R' U2 R2 U' L' U R' U' L U R' U2 R", "R U' L' U' L2 U' R2 U L2 U' R2 U2 L U R'"],
     Ab : ["R B' R F2 R' B R F2 R2"],
     E  : ["R' U L' D2 L U' R L' U R' D2 R U' L", "R' D' R U' R' D R U R' D' R U2 R' D R U' R' D' R U R' D R"],
@@ -26,13 +26,33 @@ import java.text.DecimalFormat;
     Z  : ["R' U' R2 U R U R' U' R U R U' R U' R'", "U R' U' R U' R U R U' R' U R U R2 U' R' U", "R U R' U R' U' R' U R U' R' U' R2 U R"]
 ]
 
-verifyUserInput(args);
-def pllsFromUser = args.size() == 1 ? args[0].split(",") : [];
+def cli = new CliBuilder(usage:'pll_trainer [options]')
+cli.i(longOpt:'include', args:1, argName:'include_pll', 'train including a specific set of plls seperated by comma')
+cli.e(longOpt:'exclude', args:1, argName:'exclude_pll', 'train excluding a specific set of plls seperated by comma')
+cli.l(longOpt:'list', args:0, 'list of all plls')
+options = cli.parse(args)
+
+if (options.list) {
+    plls.keySet().each{ println it }
+    System.exit(0);
+}
+
+def plls = pllsAlgs;
+if (options.include) {
+    checkPllListValidity(options.include);
+    def includes = options.include.split(",")
+    plls = plls.subMap(includes);
+}
+else if (options.exclude) {
+    checkPllListValidity(options.include);
+    def excludes = options.exclude.split(",")
+    plls.keySet().removeAll(excludes);
+}
 
 DecimalFormat df = new DecimalFormat("0.000");
 
 while (true) {
-    def pll = chooseRandomPll(pllsFromUser);
+    def pll = chooseRandomPll(plls);
     String pllSolveAlgorithm = getRandomElementInList(plls[pll]);
     def scramble = generateScramble(pllSolveAlgorithm);
     println "\nNext PLL scramble: ";
@@ -63,17 +83,9 @@ int getRandomNumber(int upperRange) {
     return Math.abs(new Random().nextInt() % upperRange);
 }
 
-def chooseRandomPll(def pllsFromUser) {
-    def chosenPLL = "";
-    if (pllsFromUser.size() == 0) {
-        // Chose which PLL from all PLLs
-        int chosenPllIndex = getRandomNumber(plls.size());
-        chosenPLL = (plls.keySet() as String[])[chosenPllIndex];
-    }
-    else {
-        chosenPLL = getRandomElementInList(pllsFromUser);
-    }
-    return chosenPLL;
+def chooseRandomPll(def plls) {
+    int chosenPllIndex = getRandomNumber(plls.size());
+    return (plls.keySet() as String[])[chosenPllIndex];
 }
 
 def generateScramble(String pllSolveAlgorithm) {
@@ -93,18 +105,12 @@ def generateScramble(String pllSolveAlgorithm) {
     return scramble + getRandomElementInList(["U", "U'", "U2", ""]);
 }
 
-def verifyUserInput(def args) {
-    if (args.size() >= 2) {
-        println "The must be 0 or 1 argument for this script. If you want to specify your pll, it must follow this format: Aa,Ab,Y";
-        System.exit(0);
-    }
-    if(args.size() == 1) {
-        args[0].split(",").each { pll ->
-            def solves = plls[pll];
-            if (solves == null || solves.size() == 0) {
-                println "PLL $pll is not handle by this script";
-                System.exit(0);
-            }
+def checkPllListValidity(def pllList) {
+    pllList.split(",").each { pll ->
+        def solves = pllsAlgs[pll];
+        if (solves == null || solves.size() == 0) {
+            println "PLL $pll is not handle by this script";
+            System.exit(0);
         }
     }
 }
