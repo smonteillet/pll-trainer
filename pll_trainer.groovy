@@ -52,9 +52,9 @@ else if (options.exclude) {
 DecimalFormat df = new DecimalFormat("0.000");
 
 while (true) {
-    def pll = chooseRandomPll(plls);
+    String pll = chooseRandomPll(plls);
     String pllSolveAlgorithm = getRandomElementInList(plls[pll]);
-    def scramble = generateScramble(pllSolveAlgorithm);
+    String scramble = generateScramble(pllSolveAlgorithm);
     println "\nNext PLL scramble: ";
     println scramble
     println 'Use [ENTER] to START / STOP timer!';
@@ -74,7 +74,7 @@ while (true) {
     println "-------------------------------------------------"
 }
 
-def getRandomElementInList(def list) {
+String getRandomElementInList(List<String> list) {
     int index = Math.abs(new Random().nextInt() % list.size());
     return list[index];
 }
@@ -83,15 +83,14 @@ int getRandomNumber(int upperRange) {
     return Math.abs(new Random().nextInt() % upperRange);
 }
 
-def chooseRandomPll(def plls) {
+String chooseRandomPll(Map<String, List<String>> plls) {
     int chosenPllIndex = getRandomNumber(plls.size());
     return (plls.keySet() as String[])[chosenPllIndex];
 }
 
-def generateScramble(String pllSolveAlgorithm) {
-     // Generate Scramble from pll solve algo
+String generateScramble(String pllAlgorithm) {
     String scramble = "";
-    pllSolveAlgorithm.split(" ").reverse().each{ move ->
+    pllAlgorithm.split(" ").reverse().each{ move ->
         if (move.contains("2")) {
             scramble = scramble + move + " ";
         }
@@ -105,9 +104,9 @@ def generateScramble(String pllSolveAlgorithm) {
     return scramble + getRandomElementInList(["U", "U'", "U2", ""]);
 }
 
-def checkPllListValidity(def pllList) {
+void checkPllListValidity(String pllList) {
     pllList.split(",").each { pll ->
-        def solves = pllsAlgs[pll];
+        List solves = pllsAlgs[pll];
         if (solves == null || solves.size() == 0) {
             println "PLL $pll is not handle by this script";
             System.exit(0);
