@@ -12,7 +12,7 @@ def plls = [];
 new File("algos").eachFileRecurse(FileType.FILES) { file ->  plls.add(file.name) }
 
 if (options.list) {
-    pllList.each{ println it }
+    plls.each{ println it }
     System.exit(0);
 }
 else if (options.include) {
