@@ -6,6 +6,7 @@ def cli = new CliBuilder(usage:'pll_trainer [options]')
 cli.i(longOpt:'include', args:1, argName:'include_pll', 'train including a specific set of plls seperated by comma')
 cli.e(longOpt:'exclude', args:1, argName:'exclude_pll', 'train excluding a specific set of plls seperated by comma')
 cli.l(longOpt:'list', args:0, 'list of all plls')
+cli.t(longOpt:'timer', args:0, 'add a timer to track your PLLs solve time.')
 options = cli.parse(args)
 
 def plls = [];
@@ -32,19 +33,25 @@ while (true) {
     def scramble = generateScramble(pllAlgo);
     println "\nNext PLL scramble: ";
     println scramble
-    println 'Use [ENTER] to START / STOP timer!';
-    System.in.newReader().readLine();
-    long start = System.currentTimeMillis();
-    def t = Thread.start {
-        while (true) {
-            long now = System.currentTimeMillis();
-            String timeFormated = df.format(((now - start) / 1000d));
-            print "\r $timeFormated s"
-            Thread.sleep(5);
+    if (options.t) {
+        println 'Use [ENTER] to START / STOP timer!';
+        System.in.newReader().readLine();
+        long start = System.currentTimeMillis();
+        def t = Thread.start {
+            while (true) {
+                long now = System.currentTimeMillis();
+                String timeFormated = df.format(((now - start) / 1000d));
+                print "\r $timeFormated s"
+                Thread.sleep(5);
+            }
         }
+        System.in.newReader().readLine();
+        t.stop(); 
     }
-    System.in.newReader().readLine();
-    t.stop(); 
+    else {
+        print "Use [ENTER] to reveal PLL";
+        System.in.newReader().readLine();
+    }
     println "\nThe PLL was : $pllName";
     println "-------------------------------------------------"
 }
