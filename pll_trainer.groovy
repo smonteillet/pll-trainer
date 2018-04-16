@@ -83,7 +83,20 @@ def generateScramble(String pllAlgo) {
             scramble = scramble + move + "' ";
         }
     }
-    return scramble + getRandomElementInList(["U", "U'", "U2", ""]);
+    return addLastUishMoveOnScramble(scramble);
+}
+
+String addLastUishMoveOnScramble(String scramble) {
+    def scrambleMoves = scramble.split(" ");
+    def lastMoveIndex = scrambleMoves.size() - 1;
+    if (scrambleMoves[lastMoveIndex].startsWith("U")) {
+        scrambleMoves[lastMoveIndex] = getRandomElementInList(["U", "U'", "U2", ""]);
+        scramble = scrambleMoves.join(" ");
+    }
+    else {
+        scramble = scramble + getRandomElementInList(["U", "U'", "U2", ""]);
+    }
+    return scramble;
 }
 
 def checkUserPllListValidity(def userPllList, def plls) {
