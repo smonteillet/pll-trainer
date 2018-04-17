@@ -1,6 +1,6 @@
 # pll-trainer
 
-PLL stands for Position Last Layer, the last step of Fridrich method for solving Rubik's cube.
+PLL stands for Position Last Layer, the last step of Fridrich (CFOP) method for solving Rubik's cube.
 This Groovy script will help you to train how to solve PLLs. It will allows you to generate a scramble which will lead you to a random PLL case.
 
 ## How to run
@@ -9,14 +9,16 @@ This Groovy script will help you to train how to solve PLLs. It will allows you 
 
     Next PLL scramble:
     F R' F' R U R U' R' F R U' R' U R U R' F' U2
-    Press [ENTER] to STOP timer!
-    0.703 sec
+    Use [ENTER] to reveal PLL
+
     The PLL was : T
     -------------------------------------------------
 
     Next PLL scramble:
     R' D' R U' R' D R U R' D' R U2 R' D R U' R' D' R U R' D R U2
-    Press [ENTER] to Start timer!
+    Use [ENTER] to reveal PLL
+
+## Option -i
 
 If you want to train only with a specific set of PLLs, you can add the following argument:
 
@@ -24,9 +26,11 @@ If you want to train only with a specific set of PLLs, you can add the following
 
     Next PLL scramble:
     R' U2 R U' F R U R' U' R' F' U' R U R U' R'
-    Press [ENTER] to STOP timer!
-    0.5 sec
+    Use [ENTER] to reveal PLL
+
     The PLL was : Ga
+
+## Option -e
 
 If you want to remove a specific set of PLLs, you can add the following argument:
 
@@ -34,6 +38,21 @@ If you want to remove a specific set of PLLs, you can add the following argument
 
     Next PLL scramble:
     R' U2 R U' F R U R' U' R' F' U' R U R U' R'
-    Press [ENTER] to STOP timer!
-    0.5 sec
+    Use [ENTER] to reveal PLL
+
     The PLL was : Ga
+
+### Option -t
+
+If you want to add a timer to track your PLLs solve time, you can add the `-t` option like this:
+
+    $ groovy pll_trainer.groovy -t
+
+    Next PLL scramble:
+    B2 U2 B' U2 B2 U2 F2 D2 B' D2 F2 U'
+    Use [ENTER] to START / STOP timer!
+
+    2,571 s
+
+    The PLL was : H
+    -------------------------------------------------
