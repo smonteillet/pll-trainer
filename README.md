@@ -42,7 +42,7 @@ If you want to remove a specific set of PLLs, you can add the following argument
 
     The PLL was : Ga
 
-### Option -t
+## Option -t
 
 If you want to add a timer to track your PLLs solve time, you can add the `-t` option like this:
 
