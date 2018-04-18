@@ -2,12 +2,16 @@ import groovy.transform.Field;
 import java.text.DecimalFormat;
 import groovy.io.FileType
 
-def cli = new CliBuilder(usage:'pll_trainer [options]')
+def cli = new CliBuilder(usage:'pll_trainer [options]',stopAtNonOption:false)
 cli.i(longOpt:'include', args:1, argName:'include_pll', 'train including a specific set of plls seperated by comma')
 cli.e(longOpt:'exclude', args:1, argName:'exclude_pll', 'train excluding a specific set of plls seperated by comma')
 cli.l(longOpt:'list', args:0, 'list of all plls')
 cli.t(longOpt:'timer', args:0, 'add a timer to track your PLLs solve time.')
 options = cli.parse(args)
+
+if (options == null) {
+    System.exit(0);
+}
 
 def plls = [];
 new File("algos").eachFileRecurse(FileType.FILES) { file ->  plls.add(file.name) }
