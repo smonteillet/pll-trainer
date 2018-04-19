@@ -38,7 +38,7 @@ while (true) {
     println "\nNext PLL scramble: ";
     println scramble
     if (options.t) {
-        println 'Use [ENTER] to START / STOP timer!';
+        println 'Use [ENTER] to START / STOP timer or [CTRL-C] to quit';
         System.in.newReader().readLine();
         long start = System.currentTimeMillis();
         def t = Thread.start {
@@ -53,7 +53,7 @@ while (true) {
         t.stop(); 
     }
     else {
-        print "Use [ENTER] to reveal PLL";
+        print "Use [ENTER] to reveal PLL or [CTRL-C] to quit";
         System.in.newReader().readLine();
     }
     println "\nThe PLL was : $pllName";

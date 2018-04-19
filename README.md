@@ -9,7 +9,7 @@ This Groovy script will help you to train how to solve PLLs. It will allows you 
 
     Next PLL scramble:
     F R' F' R U R U' R' F R U' R' U R U R' F' U2
-    Use [ENTER] to reveal PLL
+    Use [ENTER] to reveal PLL or [CTRL-C] to quit
 
     The PLL was : T
     -------------------------------------------------
@@ -26,7 +26,7 @@ If you want to train only with a specific set of PLLs, you can add the following
 
     Next PLL scramble:
     R' U2 R U' F R U R' U' R' F' U' R U R U' R'
-    Use [ENTER] to reveal PLL
+    Use [ENTER] to reveal PLL or [CTRL-C] to quit
 
     The PLL was : Ga
 
@@ -38,7 +38,7 @@ If you want to remove a specific set of PLLs, you can add the following argument
 
     Next PLL scramble:
     R' U2 R U' F R U R' U' R' F' U' R U R U' R'
-    Use [ENTER] to reveal PLL
+    Use [ENTER] to reveal PLL or [CTRL-C] to quit
 
     The PLL was : Ga
 
@@ -50,7 +50,7 @@ If you want to add a timer to track your PLLs solve time, you can add the `-t` o
 
     Next PLL scramble:
     B2 U2 B' U2 B2 U2 F2 D2 B' D2 F2 U'
-    Use [ENTER] to START / STOP timer!
+    Use [ENTER] to START / STOP timer  or [CTRL-C] to quit
 
     2,571 s
 
