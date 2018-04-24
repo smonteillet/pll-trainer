@@ -3,6 +3,10 @@
 PLL stands for Position Last Layer, the last step of Fridrich (CFOP) method for solving Rubik's cube.
 This Groovy script will help you to train how to solve PLLs. It will allows you to generate a scramble which will lead you to a random PLL case.
 
+## Tools requirements
+
+You must have Java and Groovy installed. This has been tested with Java 8 and Groovy 2.4.X
+
 ## How to run
 
     $ groovy pll_trainer.groovy
